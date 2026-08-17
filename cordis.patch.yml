@@ -1,0 +1,7 @@
+# @dsh-external/dsh-version-lock — DSH bundle patch.
+# Host half: 读写 ~/.dsh/plugins/dsh-version-lock/config.json，扫描本机 DSH
+# 安装，并提供同源 HTTP API 给设置页查询/修改“版本锁定”配置。
+# Client half: 在设置弹窗「通用」页注册版本锁定配置行（settings.general.item）。
+- insert:
+    - id: dsh-version-lock
+      name: '@dsh-external/dsh-version-lock'
