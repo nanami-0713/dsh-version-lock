@@ -9,8 +9,7 @@
  * 所有配置都通过 host 半提供的同源 HTTP API 读写；浏览器不直接触碰文件系统。
  */
 import { useEffect, useState } from 'react'
-import type { ClientContext } from '@deepseek-ai/dsh-client-runtime/client'
-import { defineStore } from '@deepseek-ai/dsh-client-runtime/client'
+import { defineStore } from '@deepseek-ai/dsh-client-store'
 // 仅用于把 settings.general.item 的 SlotMap 声明合并加载进来
 import type { SettingsGeneralItemOwnerProps } from '@deepseek-ai/dsh-client-ui-settings/client'
 import type { ComposedProps } from '@deepseek-ai/dsh-client-ui-slots'
@@ -279,6 +278,18 @@ function VersionLockRow(props: VersionLockRowProps): JSX.Element {
 }
 
 export const inject = ['slots']
+
+/**
+ * 0.1.2 起 dsh-client-runtime 包已移除，ctx 由 shell 直接注入。
+ * 按本插件实际用到的最小面声明（slots.inject/register + effect）。
+ */
+interface ClientContext {
+  slots: {
+    inject(name: string, factory: () => unknown): void
+    register(options: Record<string, unknown>, component: unknown): unknown
+  }
+  effect(fn: () => () => void, key: string): void
+}
 
 export function apply(ctx: ClientContext): void {
   const store = createRowStore()
